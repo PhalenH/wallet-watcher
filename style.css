@@ -10,10 +10,16 @@ h1 {
     text-align: center;
 }
 
-button {
+.goodButton {
     background-color: blueviolet;
     color: white;
     padding: 10px;
     border-radius: 25px;
-    /* border: solid black 2px; */
+
+}
+.badButton {
+    background-color: gray;
+    color: black;
+    padding: 10px;
+    border-radius: 25px;
 }
