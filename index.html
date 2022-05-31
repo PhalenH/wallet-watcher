@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Wallet Watcher</title>
     <link rel="stylesheet" type="text/css" href="./style.css" />
-</head>
-<body>
-    <h1>
-        Hello World
-    </h1>
-    <button id="loginButton" class="goodButton">Login with MetaMask</button>
-    <button id="logoutButton" class="goodButton">Logout from MetaMask</button>
-    <p id="userWallet"></p>
+  </head>
+  <body>
+    <main>
+      <h1>Hello World</h1>
+      <button id="loginButton" class="goodButton">Login with MetaMask</button>
+      <button id="logoutButton" class="goodButton">Logout from MetaMask</button>
+      <p id="userWallet"></p>
+    </main>
 
-    <script src="./index.js"></script>
-</body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.0-rc.0/web3.min.js"></script>
+    <script type="module" src="./index.js"></script>
+  </body>
 </html>
