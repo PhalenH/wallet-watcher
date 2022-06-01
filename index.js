@@ -1,12 +1,8 @@
-// const { default: Web3 } = require("web3");
-
 console.log("hello world");
-
-
-window.userWalletAddress = null;
 
 const loginButton = document.getElementById("loginButton");
 const logoutButton = document.getElementById("logoutButton");
+const userEtherBalance = document.getElementById("userEtherBalance");
 
 const userWallet = document.getElementById("userWallet");
 
@@ -23,6 +19,21 @@ function toggleButton() {
   loginButton.addEventListener("click", loginWithMetaMask);
 }
 
+// function to retrivew balance and display it
+function getEtherBalance(balanceUrl) {
+  fetch(balanceUrl)
+    .then((response) => {
+      console.log(response);
+      if (response.status === 200) {
+        return response.json();
+      }
+    })
+    .then((data) => {
+      console.log(data);
+      userEtherBalance.innerText = data.result;
+    });
+}
+
 // gets accounts array
 async function loginWithMetaMask() {
   const accounts = await window.ethereum
@@ -35,10 +46,18 @@ async function loginWithMetaMask() {
     return;
   }
   // Returns first account
+  console.log(accounts);
   const account = accounts[0];
-  window.userWalletAddress = account;
+  let myAddress = account;
   // displays user account address
-  userWallet.innerText = window.userWalletAddress;
+  userWallet.innerText = myAddress;
+
+  // url to request account balance
+  let requestEtherScan = `https://api.etherscan.io/api?module=account&action=balance&address=${myAddress}&tag=latest&apikey=Z1RS12PR6955ZK5SBXV6HGUEJG5GR2721W`;
+  // url to get
+  // let 
+
+  getEtherBalance(requestEtherScan);
 
   // displays logout button, removes display of login button
   loginButton.style.display = "none";
@@ -59,18 +78,3 @@ window.addEventListener("DOMContentLoaded", () => {
   toggleButton();
   console.log("DOM fully loaded and parsed");
 });
-
-
-// // import web3 js
-const web3 = new Web3(window.ethereum)
-console.log("web3 loaded", web3)
-
-// // endpoint to get connected to ethereum node 
-// const web3 = new Web3("")
-
-// // private key to send transactions
-// web3.eth.accounts.wallet.add("")
-
-// // to get ether balance of an address
-// web3.eth.getBalance("")
-// .then(balance => console.log(balance))
