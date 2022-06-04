@@ -3,8 +3,11 @@ console.log("hello world");
 const loginButton = document.getElementById("loginButton");
 const logoutButton = document.getElementById("logoutButton");
 const userEtherBalance = document.getElementById("userEtherBalance");
+const tokenNameContainer = document.getElementById("token-list-parent")
 
 const userWallet = document.getElementById("userWallet");
+
+let tokenArr = []
 
 // will gray out and display alternate message if metamask is not installed
 function toggleButton() {
@@ -59,6 +62,14 @@ function geckoTokenMarket(marketUrl) {
     })
     .then((data) => {
       console.log(data);
+      for (let i = 0; i < data.length; i++) {
+        // create elements
+        let tokenName = document.createElement('li')
+        // add content
+        tokenName.textContent = data[i].name;
+        // append child to parent
+        tokenNameContainer.append(tokenName);
+      }
     });
 }
 
@@ -95,11 +106,9 @@ async function loginWithMetaMask() {
 
   // displays logout button, removes display of login button
   loginButton.style.display = "none";
-  logoutButton.style.display = "flex";
+  logoutButton.style.display = "inline";
   logoutButton.addEventListener("click", signOutMetaMask);
 }
-
-//
 
 // removes account text and logout button, displays login again
 async function signOutMetaMask() {
