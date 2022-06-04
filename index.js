@@ -34,6 +34,32 @@ function getEtherBalance(balanceUrl) {
     });
 }
 
+function geckoTokens(gtUrl) {
+  fetch(gtUrl)
+    .then((response) => {
+      console.log(response.json);
+      if (response.status === 200) {
+        return response.json();
+      }
+    })
+    .then((data) => {
+      console.log(data);
+    });
+}
+
+function geckoTokenMarket(marketUrl) {
+  fetch(marketUrl)
+    .then((response) => {
+      console.log(response.json);
+      if (response.status === 200) {
+        return response.json();
+      }
+    })
+    .then((data) => {
+      console.log(data);
+    });
+}
+
 // gets accounts array
 async function loginWithMetaMask() {
   const accounts = await window.ethereum
@@ -54,10 +80,14 @@ async function loginWithMetaMask() {
 
   // url to request account balance
   let requestEtherScan = `https://api.etherscan.io/api?module=account&action=balance&address=${myAddress}&tag=latest&apikey=Z1RS12PR6955ZK5SBXV6HGUEJG5GR2721W`;
+  let gtUrl = "https://api.coingecko.com/api/v3/coins/list?include_platform=true";
+  let marketUrl = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=1000&page=1"
   // url to get
   // let 
 
   getEtherBalance(requestEtherScan);
+  geckoTokens(gtUrl);
+  geckoTokenMarket(marketUrl);
 
   // displays logout button, removes display of login button
   loginButton.style.display = "none";

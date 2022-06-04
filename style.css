@@ -1,5 +1,6 @@
+
 body {
-    background-color: white;
+    background: linear-gradient(180deg, white, blue) fixed;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -7,11 +8,15 @@ body {
 }
 
 .goodButton {
-    background-color: blueviolet;
+    background-color: blue;
     color: white;
     padding: 10px;
     border-radius: 25px;
-
+    border: solid white 2px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
+}
+.goodButton:hover {
+    transform: scale(1.10);
 }
 .badButton {
     background-color: gray;
