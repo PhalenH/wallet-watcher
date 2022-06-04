@@ -19,7 +19,7 @@ function toggleButton() {
   loginButton.addEventListener("click", loginWithMetaMask);
 }
 
-// function to retrivew balance and display it
+// function to retrieve balance and display it
 function getEtherBalance(balanceUrl) {
   fetch(balanceUrl)
     .then((response) => {
@@ -34,6 +34,7 @@ function getEtherBalance(balanceUrl) {
     });
 }
 
+// function to retrieve full list of tokens from coinGecko
 function geckoTokens(gtUrl) {
   fetch(gtUrl)
     .then((response) => {
@@ -47,6 +48,7 @@ function geckoTokens(gtUrl) {
     });
 }
 
+// function to retrieve token market cap from top 250 tokens using coinGecko
 function geckoTokenMarket(marketUrl) {
   fetch(marketUrl)
     .then((response) => {
@@ -80,10 +82,12 @@ async function loginWithMetaMask() {
 
   // url to request account balance
   let requestEtherScan = `https://api.etherscan.io/api?module=account&action=balance&address=${myAddress}&tag=latest&apikey=Z1RS12PR6955ZK5SBXV6HGUEJG5GR2721W`;
-  let gtUrl = "https://api.coingecko.com/api/v3/coins/list?include_platform=true";
-  let marketUrl = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=1000&page=1"
-  // url to get
-  // let 
+  // url to get all Tokens from coinGecko
+  let gtUrl =
+    "https://api.coingecko.com/api/v3/coins/list?include_platform=true";
+  // url to get top 250 coins in market
+  let marketUrl =
+    "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=1000&page=1";
 
   getEtherBalance(requestEtherScan);
   geckoTokens(gtUrl);
@@ -94,6 +98,8 @@ async function loginWithMetaMask() {
   logoutButton.style.display = "flex";
   logoutButton.addEventListener("click", signOutMetaMask);
 }
+
+//
 
 // removes account text and logout button, displays login again
 async function signOutMetaMask() {
