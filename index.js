@@ -3,11 +3,11 @@ console.log("hello world");
 const loginButton = document.getElementById("loginButton");
 const logoutButton = document.getElementById("logoutButton");
 const userEtherBalance = document.getElementById("userEtherBalance");
-const tokenNameContainer = document.getElementById("token-list-parent")
+const tokenNameContainer = document.getElementById("token-list-parent");
 
 const userWallet = document.getElementById("userWallet");
 
-let tokenArr = []
+let tokenArr = [];
 
 // will gray out and display alternate message if metamask is not installed
 function toggleButton() {
@@ -62,14 +62,29 @@ function geckoTokenMarket(marketUrl) {
     })
     .then((data) => {
       console.log(data);
+
       for (let i = 0; i < data.length; i++) {
         // create elements
-        let tokenName = document.createElement('li')
+        let tokenName = document.createElement("li");
         // add content
         tokenName.textContent = data[i].name;
         // append child to parent
         tokenNameContainer.append(tokenName);
       }
+    });
+}
+
+// function to retrieve token address via token id
+function geckoAddress(addressUrl) {
+  fetch(addressUrl)
+    .then((response) => {
+      console.log(response.json);
+      if (response.status === 200) {
+        return response.json();
+      }
+    })
+    .then((data) => {
+      console.log(data);
     });
 }
 
@@ -99,10 +114,14 @@ async function loginWithMetaMask() {
   // url to get top 250 coins in market
   let marketUrl =
     "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=1000&page=1";
+  // url to get coins by id and get contract address
+  let addressUrl =
+    `https://api.coingecko.com/api/v3/simple/token_price/bitcoin`;
 
   getEtherBalance(requestEtherScan);
   geckoTokens(gtUrl);
   geckoTokenMarket(marketUrl);
+  geckoAddress(addressUrl)
 
   // displays logout button, removes display of login button
   loginButton.style.display = "none";
