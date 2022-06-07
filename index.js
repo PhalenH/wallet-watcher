@@ -10,9 +10,15 @@ const ethereumBalance = document.getElementById("userEtherBalance");
 
 const userWallet = document.getElementById("userWallet");
 // url to get all Tokens from coinGecko
-let getUrl = "https://api.coingecko.com/api/v3/coins/list?include_platform=true";
+let getUrl =
+  "https://api.coingecko.com/api/v3/coins/list?include_platform=true";
+// url to get top 250 coins in market
+let marketUrl =
+  "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=1000&page=1";
 
 let tokenArr = [];
+let topTokenArr = [];
+let tokenName = [];
 
 // will gray out and display alternate message if metamask is not installed
 function toggleButton() {
@@ -25,6 +31,11 @@ function toggleButton() {
 
   // click event for when user does have metamask downloaded
   loginButton.addEventListener("click", loginWithMetaMask);
+
+  // returns tokenName list of top 250 names
+  geckoTokenMarket(marketUrl);
+  // returns tokenArr list of all tokens with ethereum platform
+  geckoTokens(getUrl);
 }
 
 // function to retrieve balance and display it
@@ -41,7 +52,7 @@ function getEtherBalance(balanceUrl) {
 }
 
 // function to retrieve full list of tokens from coinGecko
-function geckoTokens(getUrl) {
+async function geckoTokens(getUrl) {
   fetch(getUrl)
     .then((response) => {
       if (response.status === 200) {
@@ -52,7 +63,10 @@ function geckoTokens(getUrl) {
       // loops through data, if ethereum is platform used, adds it to array and logs it
       for (let i = 0; i < data.length; i++) {
         if (data[i].platforms.ethereum) {
-          tokenArr.push(data[i]);
+          tokenArr.push({
+            id: data[i].id,
+            address: data[i].platforms.ethereum,
+          });
         }
       }
       console.log(tokenArr);
@@ -61,7 +75,7 @@ function geckoTokens(getUrl) {
 }
 
 // function to retrieve token market cap from top 250 tokens using coinGecko
-function geckoTokenMarket(marketUrl) {
+async function geckoTokenMarket(marketUrl) {
   fetch(marketUrl)
     .then((response) => {
       if (response.status === 200) {
@@ -69,38 +83,38 @@ function geckoTokenMarket(marketUrl) {
       }
     })
     .then((data) => {
-      console.log(data);
-      geckoTokens(getUrl);
-      // console.log(tokenArr)
+      // console.log(data);
+      // console.log(tokenArr);
+      data.forEach((name) => tokenName.push(name.id));
+      console.log(tokenName);
 
-      for (let i = 0; i < data.length; i++) {
-        // create elements
-        let tokenName = document.createElement("li");
-        let tokenPrice = document.createElement("li");
-        // add content
-        tokenName.className = "list-item";
-        tokenName.textContent = data[i].name;
-        tokenPrice.className = "list-item";
-        tokenPrice.textContent = "$" + data[i].current_price.toFixed(2);
-        // append child to parent
-        tokenNameContainer.append(tokenName);
-        tokenPriceContainer.append(tokenPrice);
-      }
+      // for (let i = 0; i < data.length; i++) {
+      //   // create elements
+      //   let tokenName = document.createElement("li");
+      //   let tokenPrice = document.createElement("li");
+      //   // add content
+      //   tokenName.className = "list-item";
+      //   tokenName.textContent = data[i].name;
+      //   tokenPrice.className = "list-item";
+      //   tokenPrice.textContent = "$" + data[i].current_price.toFixed(2);
+      //   // append child to parent
+      //   tokenNameContainer.append(tokenName);
+      //   tokenPriceContainer.append(tokenPrice);
+      // }
     });
 }
 
-// function to retrieve token address via token id
-function geckoAddress(addressUrl) {
-  fetch(addressUrl)
-    .then((response) => {
-      // console.log(response.json);
-      if (response.status === 200) {
-        return response.json();
+// function to compare tokenArr and TokenName to return top 250 which have the platform ethereum
+function compareTwoArr() {
+  for (let i = 0; i < tokenName.length; i++) {
+    for (let j = 0; j < tokenArr.length; j++) {
+      if (tokenName[i].indexOf(tokenArr[j].id) != -1) {
+        topTokenArr.push(tokenName[i]);
       }
-    })
-    .then((data) => {
-      // console.log(data);
-    });
+    }
+  }
+  console.log(topTokenArr)
+  return topTokenArr
 }
 
 // gets accounts array
@@ -123,16 +137,10 @@ async function loginWithMetaMask() {
 
   // url to request account balance
   let requestEtherScan = `https://api.etherscan.io/api?module=account&action=balance&address=${myAddress}&tag=latest&apikey=Z1RS12PR6955ZK5SBXV6HGUEJG5GR2721W`;
-  // url to get top 250 coins in market
-  let marketUrl =
-    "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=1000&page=1";
   // url to get coins by id and get contract address
-  let addressUrl = `https://api.coingecko.com/api/v3/simple/token_price/bitcoin`;
-  // currently getting a 422 error
 
   getEtherBalance(requestEtherScan);
-  geckoTokenMarket(marketUrl);
-  geckoAddress(addressUrl);
+  compareTwoArr();
 
   // displays logout button, removes display of login button
   loginButton.style.display = "none";
@@ -142,18 +150,7 @@ async function loginWithMetaMask() {
 
 // removes account text and logout button, displays login again
 async function signOutMetaMask() {
-  window.userWalletAddress = null;
-  userWallet.innerText = "";
-  logoutButton.style.display = "none";
-  // console.log(document.querySelectorAll(".list-item"))
-  let listItems = document.querySelectorAll(".list-item");
-  for (let i = 0; i < listItems.length; i++) {
-    listItems[i].remove();
-  }
-  userEtherBalance.innerText = "";
-  tokenArr = [];
-
-  loginButton.style.display = "inline";
+  location.reload();
 }
 
 // checks if window has MetaMask after dom loads
