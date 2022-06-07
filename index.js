@@ -9,6 +9,8 @@ const tokenHoldingContainer = document.getElementById("token-list-holding");
 const ethereumBalance = document.getElementById("userEtherBalance");
 
 const userWallet = document.getElementById("userWallet");
+// url to get all Tokens from coinGecko
+let getUrl = "https://api.coingecko.com/api/v3/coins/list?include_platform=true";
 
 let tokenArr = [];
 
@@ -29,28 +31,32 @@ function toggleButton() {
 function getEtherBalance(balanceUrl) {
   fetch(balanceUrl)
     .then((response) => {
-      console.log(response);
       if (response.status === 200) {
         return response.json();
       }
     })
     .then((data) => {
-      console.log(data);
       userEtherBalance.innerText = data.result;
     });
 }
 
 // function to retrieve full list of tokens from coinGecko
-function geckoTokens(gtUrl) {
-  fetch(gtUrl)
+function geckoTokens(getUrl) {
+  fetch(getUrl)
     .then((response) => {
-      console.log(response.json);
       if (response.status === 200) {
         return response.json();
       }
     })
     .then((data) => {
-      console.log(data);
+      // loops through data, if ethereum is platform used, adds it to array and logs it
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].platforms.ethereum) {
+          tokenArr.push(data[i]);
+        }
+      }
+      console.log(tokenArr);
+      return tokenArr;
     });
 }
 
@@ -58,13 +64,14 @@ function geckoTokens(gtUrl) {
 function geckoTokenMarket(marketUrl) {
   fetch(marketUrl)
     .then((response) => {
-      console.log(response.json);
       if (response.status === 200) {
         return response.json();
       }
     })
     .then((data) => {
       console.log(data);
+      geckoTokens(getUrl);
+      // console.log(tokenArr)
 
       for (let i = 0; i < data.length; i++) {
         // create elements
@@ -86,13 +93,13 @@ function geckoTokenMarket(marketUrl) {
 function geckoAddress(addressUrl) {
   fetch(addressUrl)
     .then((response) => {
-      console.log(response.json);
+      // console.log(response.json);
       if (response.status === 200) {
         return response.json();
       }
     })
     .then((data) => {
-      console.log(data);
+      // console.log(data);
     });
 }
 
@@ -116,9 +123,6 @@ async function loginWithMetaMask() {
 
   // url to request account balance
   let requestEtherScan = `https://api.etherscan.io/api?module=account&action=balance&address=${myAddress}&tag=latest&apikey=Z1RS12PR6955ZK5SBXV6HGUEJG5GR2721W`;
-  // url to get all Tokens from coinGecko
-  let gtUrl =
-    "https://api.coingecko.com/api/v3/coins/list?include_platform=true";
   // url to get top 250 coins in market
   let marketUrl =
     "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=1000&page=1";
@@ -127,7 +131,6 @@ async function loginWithMetaMask() {
   // currently getting a 422 error
 
   getEtherBalance(requestEtherScan);
-  geckoTokens(gtUrl);
   geckoTokenMarket(marketUrl);
   geckoAddress(addressUrl);
 
@@ -143,11 +146,12 @@ async function signOutMetaMask() {
   userWallet.innerText = "";
   logoutButton.style.display = "none";
   // console.log(document.querySelectorAll(".list-item"))
-  let listItems = document.querySelectorAll(".list-item")
-  for(let i=0; i <listItems.length; i++){
-    listItems[i].remove()
+  let listItems = document.querySelectorAll(".list-item");
+  for (let i = 0; i < listItems.length; i++) {
+    listItems[i].remove();
   }
   userEtherBalance.innerText = "";
+  tokenArr = [];
 
   loginButton.style.display = "inline";
 }
@@ -155,5 +159,5 @@ async function signOutMetaMask() {
 // checks if window has MetaMask after dom loads
 window.addEventListener("DOMContentLoaded", () => {
   toggleButton();
-  console.log("DOM fully loaded and parsed");
+  // console.log("DOM fully loaded and parsed");
 });
