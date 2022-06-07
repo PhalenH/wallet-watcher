@@ -3,7 +3,10 @@ console.log("hello world");
 const loginButton = document.getElementById("loginButton");
 const logoutButton = document.getElementById("logoutButton");
 const userEtherBalance = document.getElementById("userEtherBalance");
-const tokenNameContainer = document.getElementById("token-list-parent");
+const tokenNameContainer = document.getElementById("token-list-name");
+const tokenPriceContainer = document.getElementById("token-list-price");
+const tokenHoldingContainer = document.getElementById("token-list-holding");
+const ethereumBalance = document.getElementById("userEtherBalance");
 
 const userWallet = document.getElementById("userWallet");
 
@@ -66,10 +69,15 @@ function geckoTokenMarket(marketUrl) {
       for (let i = 0; i < data.length; i++) {
         // create elements
         let tokenName = document.createElement("li");
+        let tokenPrice = document.createElement("li");
         // add content
+        tokenName.className = "list-item";
         tokenName.textContent = data[i].name;
+        tokenPrice.className = "list-item";
+        tokenPrice.textContent = "$" + data[i].current_price.toFixed(2);
         // append child to parent
         tokenNameContainer.append(tokenName);
+        tokenPriceContainer.append(tokenPrice);
       }
     });
 }
@@ -115,13 +123,13 @@ async function loginWithMetaMask() {
   let marketUrl =
     "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=1000&page=1";
   // url to get coins by id and get contract address
-  let addressUrl =
-    `https://api.coingecko.com/api/v3/simple/token_price/bitcoin`;
+  let addressUrl = `https://api.coingecko.com/api/v3/simple/token_price/bitcoin`;
+  // currently getting a 422 error
 
   getEtherBalance(requestEtherScan);
   geckoTokens(gtUrl);
   geckoTokenMarket(marketUrl);
-  geckoAddress(addressUrl)
+  geckoAddress(addressUrl);
 
   // displays logout button, removes display of login button
   loginButton.style.display = "none";
@@ -134,7 +142,14 @@ async function signOutMetaMask() {
   window.userWalletAddress = null;
   userWallet.innerText = "";
   logoutButton.style.display = "none";
-  loginButton.style.display = "flex";
+  // console.log(document.querySelectorAll(".list-item"))
+  let listItems = document.querySelectorAll(".list-item")
+  for(let i=0; i <listItems.length; i++){
+    listItems[i].remove()
+  }
+  userEtherBalance.innerText = "";
+
+  loginButton.style.display = "inline";
 }
 
 // checks if window has MetaMask after dom loads

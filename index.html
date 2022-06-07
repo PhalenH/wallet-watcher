@@ -9,20 +9,27 @@
   </head>
   <body>
     <main>
+      <section class="top-content">
       <h1>Hello</h1>
       <button id="loginButton" class="goodButton">Login with MetaMask</button>
       <button id="logoutButton" class="goodButton">Logout from MetaMask</button>
+      <h2>Wallet Address:</h2>
       <p id="userWallet"></p>
+      <h2>Ethereum Balance:</h2>
       <p id="userEtherBalance"></p>
+    </section>
       <section class="content-container">
         <h2>Tokens</h2>
         <div class="list-container">
-          <ul class="list-title">
-            <li>Name</li>
-            <li>Current Holdings</li>
-            <li>Current Price</li>
+          <ul id="token-list-name" class="list-parent">
+            <h3 class="list-title">Name</h3>
           </ul>
-          <ul id="token-list-parent" class="token-list"></ul>
+          <ul id="token-list-price" class="list-parent">
+            <h3 class="list-title">Current Price</h3>
+          </ul>
+          <ul id="token-list-holding" class="list-parent">
+            <h3 class="list-title">Current Holdings</h3>
+          </ul>
         </div>
       </section>
     </main>

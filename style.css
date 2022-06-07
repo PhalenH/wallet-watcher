@@ -1,46 +1,55 @@
-
 main {
-    width: 100%;
+  width: 100%;
 }
 body {
-    background: linear-gradient(180deg, blue, white) fixed;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    text-align: center;
+  background: linear-gradient(180deg, black, blue) fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
 }
 
 .goodButton {
-    background-color: blue;
-    color: white;
-    padding: 10px;
-    border-radius: 25px;
-    border: solid white 2px;
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
+  background-color: blue;
+  color: white;
+  padding: 10px;
+  border-radius: 25px;
+  border: solid white 2px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
 }
 .goodButton:hover {
-    transform: scale(1.10);
+  transform: scale(1.1);
 }
 .badButton {
-    background-color: gray;
-    color: black;
-    padding: 10px;
-    border-radius: 25px;
+  background-color: gray;
+  color: black;
+  padding: 10px;
+  border-radius: 25px;
 }
 #logoutButton {
-    display: none;
+  display: none;
 }
-.list-container {
-    width: 100%;
+.top-content {
+    height: 250px
 }
 .content-container {
-    margin-top: 100px;
-    text-align: center;
+  margin-top: 100px;
+}
+.list-container {
+  width: 100%;
+  display: flex;
+}
+.list-parent {
+  padding-bottom: 20px;
+}
+.list-parent li {
+  text-align: left;
+  padding: 5px 0px;
+  list-style: none;
 }
 .list-title {
-    display: flex;
-    list-style-type: none;
-    justify-content: space-around;
+  margin-bottom: 10px;
+  border-bottom: solid 2px white;
 }
