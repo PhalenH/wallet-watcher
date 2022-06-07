@@ -6,7 +6,6 @@ const userEtherBalance = document.getElementById("userEtherBalance");
 const tokenNameContainer = document.getElementById("token-list-name");
 const tokenPriceContainer = document.getElementById("token-list-price");
 const tokenHoldingContainer = document.getElementById("token-list-holding");
-const ethereumBalance = document.getElementById("userEtherBalance");
 
 const userWallet = document.getElementById("userWallet");
 // url to get all Tokens from coinGecko
@@ -19,6 +18,7 @@ let marketUrl =
 let tokenArr = [];
 let topTokenArr = [];
 let tokenName = [];
+let finalDisplay = [];
 
 // will gray out and display alternate message if metamask is not installed
 function toggleButton() {
@@ -32,7 +32,7 @@ function toggleButton() {
   // click event for when user does have metamask downloaded
   loginButton.addEventListener("click", loginWithMetaMask);
 
-  // returns tokenName list of top 250 names
+  // returns tokenName list of top 250 tokens' name
   geckoTokenMarket(marketUrl);
   // returns tokenArr list of all tokens with ethereum platform
   geckoTokens(getUrl);
@@ -48,6 +48,22 @@ function getEtherBalance(balanceUrl) {
     })
     .then((data) => {
       userEtherBalance.innerText = data.result;
+    });
+}
+
+// function to retrieve user's current balance of an ERC-20 token
+function getUserToken(getUserTokenUrl) {
+  fetch(getUserTokenUrl)
+    .then((response) => {
+      if (response.status === 200) {
+        return response.json();
+      }
+    })
+    .then((data) => {
+      // returns amount only if user is holding some amount of that token
+      if (data.result > 0) {
+        return data.result;
+      }
     });
 }
 
@@ -69,7 +85,7 @@ async function geckoTokens(getUrl) {
           });
         }
       }
-      console.log(tokenArr);
+      // console.log(tokenArr);
       return tokenArr;
     });
 }
@@ -86,21 +102,7 @@ async function geckoTokenMarket(marketUrl) {
       // console.log(data);
       // console.log(tokenArr);
       data.forEach((name) => tokenName.push(name.id));
-      console.log(tokenName);
-
-      // for (let i = 0; i < data.length; i++) {
-      //   // create elements
-      //   let tokenName = document.createElement("li");
-      //   let tokenPrice = document.createElement("li");
-      //   // add content
-      //   tokenName.className = "list-item";
-      //   tokenName.textContent = data[i].name;
-      //   tokenPrice.className = "list-item";
-      //   tokenPrice.textContent = "$" + data[i].current_price.toFixed(2);
-      //   // append child to parent
-      //   tokenNameContainer.append(tokenName);
-      //   tokenPriceContainer.append(tokenPrice);
-      // }
+      // console.log(tokenName);
     });
 }
 
@@ -109,16 +111,34 @@ function compareTwoArr() {
   for (let i = 0; i < tokenName.length; i++) {
     for (let j = 0; j < tokenArr.length; j++) {
       if (tokenName[i].indexOf(tokenArr[j].id) != -1) {
-        topTokenArr.push(tokenName[i]);
+        topTokenArr.push({ id: tokenName[i], address: tokenArr[j].address });
       }
     }
   }
-  console.log(topTokenArr)
-  return topTokenArr
+  console.log(topTokenArr);
+  return topTokenArr;
+}
+
+// creates and appends list items for tokens that user is holding  to designed unordered lists
+function displayContent() {
+  for (let i = 0; i < finalDisplay.length; i++) {
+    // create elements
+    let tokenName = document.createElement("li");
+    let tokenAmount = document.createElement("li");
+    // add content
+    tokenName.className = "list-item";
+    tokenName.textContent = data[i].name;
+    tokenAmount.className = "list-item";
+    tokenAmount.textContent = data[i].amount;
+    // append child to parent
+    tokenNameContainer.append(tokenName);
+    tokenHoldingContainer.append(tokenAmount);
+  }
 }
 
 // gets accounts array
 async function loginWithMetaMask() {
+  compareTwoArr();
   const accounts = await window.ethereum
     .request({ method: "eth_requestAccounts" })
     .catch((e) => {
@@ -135,13 +155,25 @@ async function loginWithMetaMask() {
   // displays user account address
   userWallet.innerText = myAddress;
 
+  //TODO: add to env file
+  let apiKey = "Z1RS12PR6955ZK5SBXV6HGUEJG5GR2721W";
+
   // url to request account balance
-  let requestEtherScan = `https://api.etherscan.io/api?module=account&action=balance&address=${myAddress}&tag=latest&apikey=Z1RS12PR6955ZK5SBXV6HGUEJG5GR2721W`;
-  // url to get coins by id and get contract address
+  let requestEtherScan = `https://api.etherscan.io/api?module=account&action=balance&address=${myAddress}&tag=latest&apikey=${apiKey}`;
+
+  // Returns the current balance of an ERC-20 token of an address.
+  // let getUserTokensUrl = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=${contractAddress}&address=${myAddress}&tag=latest&apikey=${apiKey}`;
+
+  for (let i = 0; i < topTokenArr.length; i++) {
+    let getUserTokensUrl = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=${topTokenArr[i].address}&address=${myAddress}&tag=latest&apikey=${apiKey}`;
+    console.log(getUserTokensUrl);
+    // if(getUserToken(getUserTokensUrl) > 0){
+    //   finalDisplay.push({ name: topTokenArr[i].name , amount: getUserToken(getUserTokensUrl)})
+    // }
+  }
 
   getEtherBalance(requestEtherScan);
-  compareTwoArr();
-
+  displayContent();
   // displays logout button, removes display of login button
   loginButton.style.display = "none";
   logoutButton.style.display = "inline";
