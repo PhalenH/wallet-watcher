@@ -169,12 +169,12 @@ async function loginWithMetaMask() {
   for (let i = 0; i < topTokenArr.length; i++) {
     let getUserTokensUrl = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=${topTokenArr[i].address}&address=${myAddress}&tag=latest&apikey=${apiKey}`;
     // console.log(getUserTokensUrl);
-    if(getUserToken(getUserTokensUrl) > 0){
-      finalDisplay.push({ name: topTokenArr[i].name , amount: getUserToken(getUserTokensUrl)})
-    }
+    // if(getUserToken(getUserTokensUrl) > 0){
+    //   finalDisplay.push({ name: topTokenArr[i].name , amount: getUserToken(getUserTokensUrl)})
+    // }
   }
 
-  // displayContent();
+  displayContent();
   
   // displays logout button, removes display of login button
   loginButton.style.display = "none";
