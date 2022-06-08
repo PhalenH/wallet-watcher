@@ -133,6 +133,8 @@ async function displayContent() {
     // append child to parent
     tokenNameContainer.append(tokenName);
     tokenHoldingContainer.append(tokenAmount);
+
+    console.log("last")
   }
 }
 
@@ -154,7 +156,6 @@ async function loginWithMetaMask() {
   // displays user account address
   userWallet.innerText = myAddress;
 
-  //TODO: add to env file
   let apiKey = "Z1RS12PR6955ZK5SBXV6HGUEJG5GR2721W";
   // url to request account balance
   let requestEtherScan = `https://api.etherscan.io/api?module=account&action=balance&address=${myAddress}&tag=latest&apikey=${apiKey}`;
@@ -162,17 +163,23 @@ async function loginWithMetaMask() {
   getEtherBalance(requestEtherScan);
 
   // Returns the current balance of an ERC-20 token of an address.
-  for (let i = 0; i < topTokenArr.length; i++) {
+  async function returnUserTokenArr() {
+  for (let i = 0; i < 15; i++) {
     let getUserTokensUrl = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=${topTokenArr[i].address}&address=${myAddress}&tag=latest&apikey=${apiKey}`;
-    console.log(getUserTokensUrl);
+    // console.log(getUserTokensUrl);
+    console.log("first")
     // if(getUserToken(getUserTokensUrl) > 0){
     //   finalDisplay.push({ name: topTokenArr[i].name , amount: getUserToken(getUserTokensUrl)})
     // }
   }
+}
   // let getUserTokensUrl1 = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0x58b6a8a3302369daec383334672404ee733ab239&address=${myAddress}&tag=latest&apikey=${apiKey}`;
   // let getUserTokensUrl2 = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0xb056c38f6b7dc4064367403e26424cd2c60655e1&address=${myAddress}&tag=latest&apikey=${apiKey}`;
   // await getUserToken(getUserTokensUrl1);
   // await getUserToken(getUserTokensUrl2);
+
+  await returnUserTokenArr();
+  await displayContent();
 
   // displays logout button, removes display of login button
   loginButton.style.display = "none";
