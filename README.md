@@ -7,3 +7,6 @@ Waller watcher will allow a user to login with MetaMask from the landing page. O
 ## Resources
 - CoinGecko API
 - EtherScan API
+
+## Deployed Link
+- https://wallet-watcher-alpha.vercel.app/
