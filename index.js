@@ -105,21 +105,21 @@ async function getEtherBalance(balanceUrl) {
 }
 
 // function to retrieve user's current balance of an ERC-20 token
-// async function getUserToken(getUserTokenUrl) {
-//   fetch(getUserTokenUrl)
-//     .then((response) => {
-//       if (response.status === 200) {
-//         return response.json();
-//       }
-//     })
-//     .then((data) => {
-//       // returns amount only if user is holding some amount of that token
-//       if (data.result >= 0) {
-//         console.log(data.result);
-//         // return data.result;
-//       }
-//     });
-// }
+async function getUserToken(getUserTokenUrl) {
+  fetch(getUserTokenUrl)
+    .then((response) => {
+      if (response.status === 200) {
+        return response.json();
+      }
+    })
+    .then((data) => {
+      // returns amount only if user is holding some amount of that token
+      if (data.result >= 0) {
+        console.log(data.result);
+        // return data.result;
+      }
+    });
+}
 
 // creates and appends list items for tokens that user is holding  to designed unordered lists
 async function displayContent() {
@@ -163,16 +163,17 @@ async function loginWithMetaMask() {
   getEtherBalance(requestEtherScan);
 
   // Returns the current balance of an ERC-20 token of an address.
-  async function returnUserTokenArr() {
-  for (let i = 0; i < 15; i++) {
-    let getUserTokensUrl = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=${topTokenArr[i].address}&address=${myAddress}&tag=latest&apikey=${apiKey}`;
-    // console.log(getUserTokensUrl);
-    console.log("first")
-    // if(getUserToken(getUserTokensUrl) > 0){
-    //   finalDisplay.push({ name: topTokenArr[i].name , amount: getUserToken(getUserTokensUrl)})
-    // }
-  }
-}
+//   async function returnUserTokenArr() {
+//   for (let i = 0; i < 15; i++) {
+//     let getUserTokensUrl = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=${topTokenArr[i].address}&address=${myAddress}&tag=latest&apikey=${apiKey}`;
+//     // console.log(getUserTokensUrl);
+//     console.log("first")
+//     // if(getUserToken(getUserTokensUrl) > 0){
+//     //   finalDisplay.push({ name: topTokenArr[i].name , amount: getUserToken(getUserTokensUrl)})
+//     // }
+//   }
+// }
+
   let getUserTokensUrl1 = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0x58b6a8a3302369daec383334672404ee733ab239&address=${myAddress}&tag=latest&apikey=${apiKey}`;
   let getUserTokensUrl2 = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0xb056c38f6b7dc4064367403e26424cd2c60655e1&address=${myAddress}&tag=latest&apikey=${apiKey}`;
   await getUserToken(getUserTokensUrl1);
