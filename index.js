@@ -167,10 +167,11 @@ async function loginWithMetaMask() {
   for (let i = 0; i < 5; i++) {
     let getUserTokensUrl = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=${topTokenArr[i].address}&address=${myAddress}&tag=latest&apikey=${apiKey}`;
     console.log(getUserTokensUrl);
-    if(getUserToken(getUserTokensUrl) >= 0){
-      console.log("working")
-      // finalDisplay.push({ name: topTokenArr[i].name , amount: getUserToken(getUserTokensUrl)})
-    }
+    console.log(getUserToken(getUserTokensUrl))
+    // if(getUserToken(getUserTokensUrl) >= 0){
+    //   console.log("working")
+    //   // finalDisplay.push({ name: topTokenArr[i].name , amount: getUserToken(getUserTokensUrl)})
+    // }
   }
 }
 
