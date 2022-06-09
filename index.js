@@ -90,7 +90,6 @@ async function compareTwoArr() {
       }
     }
   }
-  console.log(topTokenArr);
   return topTokenArr;
 }
 
@@ -128,10 +127,11 @@ async function getUserToken(getUserTokenUrl) {
 async function checkifTokenExists() {
   // Promise.all()
   for(let i = 0; i < tokenAddressArr.length; i++){
-  if (getUserToken(tokenAddressArr[i]) >= 0) {
-    console.log("working");
-    // finalDisplay.push({ name: topTokenArr[i].name , amount: getUserToken(getUserTokensUrl)})
-  }
+    console.log(tokenAddressArr[i])
+  // if (getUserToken(tokenAddressArr[i]) >= 0) {
+  //   console.log("working");
+  //   finalDisplay.push({ name: topTokenArr[i].name , amount: getUserToken(getUserTokensUrl)})
+  // }
 }
 }
 
@@ -174,7 +174,7 @@ async function loginWithMetaMask() {
   // url to request account balance
   let requestEtherScan = `https://api.etherscan.io/api?module=account&action=balance&address=${myAddress}&tag=latest&apikey=${apiKey}`;
   // fetches api to retrieve ethereum balance
-  // getEtherBalance(requestEtherScan);
+  getEtherBalance(requestEtherScan);
 
   // Returns the current balance of an ERC-20 token of an address.
   async function returnUserTokenArr() {
@@ -182,10 +182,9 @@ async function loginWithMetaMask() {
       let getUserTokensUrl = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=${topTokenArr[i].address}&address=${myAddress}&tag=latest&apikey=${apiKey}`;
       tokenAddressArr.push(getUserTokensUrl);
     }
-    console.log(tokenAddressArr);
+    // console.log(tokenAddressArr);
   }
   await returnUserTokenArr();
-  await displayContent();
   await checkifTokenExists();
 
   // displays logout button, removes display of login button
@@ -199,6 +198,7 @@ async function loginWithMetaMask() {
 
 async function viewTokenList() {
   console.log("hello");
+  await displayContent();
   displayTokenButton.style.display = "none";
   ListContainerHeader.style.display = "inline";
 }
