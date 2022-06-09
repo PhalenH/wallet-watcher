@@ -1,4 +1,4 @@
-console.log("hello world");
+console.log("hello ");
 
 // HTML tags to reference in functions
 const loginButton = document.getElementById("loginButton");
@@ -99,27 +99,27 @@ async function getEtherBalance(balanceUrl) {
       }
     })
     .then((data) => {
-      // console.log(data);
+      console.log(data);
       userEtherBalance.innerText = data.result;
     });
 }
 
 // function to retrieve user's current balance of an ERC-20 token
-async function getUserToken(getUserTokenUrl) {
-  fetch(getUserTokenUrl)
-    .then((response) => {
-      if (response.status === 200) {
-        return response.json();
-      }
-    })
-    .then((data) => {
-      // returns amount only if user is holding some amount of that token
-      if (data.result >= 0) {
-        // console.log(data.result);
-        return data.result;
-      }
-    });
-}
+// async function getUserToken(getUserTokenUrl) {
+//   fetch(getUserTokenUrl)
+//     .then((response) => {
+//       if (response.status === 200) {
+//         return response.json();
+//       }
+//     })
+//     .then((data) => {
+//       // returns amount only if user is holding some amount of that token
+//       if (data.result >= 0) {
+//         console.log(data.result);
+//         // return data.result;
+//       }
+//     });
+// }
 
 // creates and appends list items for tokens that user is holding  to designed unordered lists
 async function displayContent() {
@@ -173,12 +173,12 @@ async function loginWithMetaMask() {
     // }
   }
 }
-  // let getUserTokensUrl1 = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0x58b6a8a3302369daec383334672404ee733ab239&address=${myAddress}&tag=latest&apikey=${apiKey}`;
-  // let getUserTokensUrl2 = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0xb056c38f6b7dc4064367403e26424cd2c60655e1&address=${myAddress}&tag=latest&apikey=${apiKey}`;
-  // await getUserToken(getUserTokensUrl1);
-  // await getUserToken(getUserTokensUrl2);
+  let getUserTokensUrl1 = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0x58b6a8a3302369daec383334672404ee733ab239&address=${myAddress}&tag=latest&apikey=${apiKey}`;
+  let getUserTokensUrl2 = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0xb056c38f6b7dc4064367403e26424cd2c60655e1&address=${myAddress}&tag=latest&apikey=${apiKey}`;
+  await getUserToken(getUserTokensUrl1);
+  await getUserToken(getUserTokensUrl2);
 
-  await returnUserTokenArr();
+  // await returnUserTokenArr();
   await displayContent();
 
   // displays logout button, removes display of login button
