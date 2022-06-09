@@ -116,7 +116,7 @@ async function getUserToken(getUserTokenUrl) {
       // returns amount only if user is holding some amount of that token
       if (data.result >= 0) {
         console.log(data.result);
-        // return data.result;
+        return data.result;
       }
     });
 }
@@ -167,10 +167,10 @@ async function loginWithMetaMask() {
   for (let i = 0; i < 5; i++) {
     let getUserTokensUrl = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=${topTokenArr[i].address}&address=${myAddress}&tag=latest&apikey=${apiKey}`;
     console.log(getUserTokensUrl);
-    // console.log("first")
-    // if(getUserToken(getUserTokensUrl) > 0){
-    //   finalDisplay.push({ name: topTokenArr[i].name , amount: getUserToken(getUserTokensUrl)})
-    // }
+    if(getUserToken(getUserTokensUrl) >= 0){
+      console.log("working")
+      // finalDisplay.push({ name: topTokenArr[i].name , amount: getUserToken(getUserTokensUrl)})
+    }
   }
 }
 
