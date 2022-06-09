@@ -2,7 +2,10 @@ console.log("hello ");
 
 // HTML tags to reference in functions
 const loginButton = document.getElementById("loginButton");
+const displayTokenButton = document.getElementById("displayTokenButton");
 const logoutButton = document.getElementById("logoutButton");
+const loginMessage = document.getElementById("login-message");
+const ListContainerHeader = document.getElementById("list-container-header");
 const userEtherBalance = document.getElementById("userEtherBalance");
 const tokenNameContainer = document.getElementById("token-list-name");
 const tokenHoldingContainer = document.getElementById("token-list-holding");
@@ -20,6 +23,7 @@ let marketUrl =
 let tokenArr = [];
 let topTokenArr = [];
 let tokenName = [];
+let tokenAddressArr = [];
 let finalDisplay = [];
 
 // Grays out and display alternate message for button if metamask is not installed
@@ -86,7 +90,7 @@ async function compareTwoArr() {
       }
     }
   }
-  // console.log(topTokenArr);
+  console.log(topTokenArr);
   return topTokenArr;
 }
 
@@ -121,6 +125,16 @@ async function getUserToken(getUserTokenUrl) {
     });
 }
 
+async function checkifTokenExists() {
+  // Promise.all()
+  for(let i = 0; i < tokenAddressArr.length; i++){
+  if (getUserToken(tokenAddressArr[i]) >= 0) {
+    console.log("working");
+    // finalDisplay.push({ name: topTokenArr[i].name , amount: getUserToken(getUserTokensUrl)})
+  }
+}
+}
+
 // creates and appends list items for tokens that user is holding  to designed unordered lists
 async function displayContent() {
   for (let i = 0; i < finalDisplay.length; i++) {
@@ -134,13 +148,13 @@ async function displayContent() {
     tokenNameContainer.append(tokenName);
     tokenHoldingContainer.append(tokenAmount);
 
-    console.log("last")
+    console.log("last");
   }
 }
 
 // gets accounts array
 async function loginWithMetaMask() {
-  compareTwoArr();
+  await compareTwoArr();
   const accounts = await window.ethereum
     .request({ method: "eth_requestAccounts" })
     .catch((e) => {
@@ -160,35 +174,34 @@ async function loginWithMetaMask() {
   // url to request account balance
   let requestEtherScan = `https://api.etherscan.io/api?module=account&action=balance&address=${myAddress}&tag=latest&apikey=${apiKey}`;
   // fetches api to retrieve ethereum balance
-  getEtherBalance(requestEtherScan);
+  // getEtherBalance(requestEtherScan);
 
   // Returns the current balance of an ERC-20 token of an address.
   async function returnUserTokenArr() {
-  for (let i = 0; i < 5; i++) {
-    let getUserTokensUrl = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=${topTokenArr[i].address}&address=${myAddress}&tag=latest&apikey=${apiKey}`;
-    console.log(getUserTokensUrl);
-    console.log(getUserToken(getUserTokensUrl))
-    // if(getUserToken(getUserTokensUrl) >= 0){
-    //   console.log("working")
-    //   // finalDisplay.push({ name: topTokenArr[i].name , amount: getUserToken(getUserTokensUrl)})
-    // }
+    for (let i = 0; i < topTokenArr.length; i++) {
+      let getUserTokensUrl = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=${topTokenArr[i].address}&address=${myAddress}&tag=latest&apikey=${apiKey}`;
+      tokenAddressArr.push(getUserTokensUrl);
+    }
+    console.log(tokenAddressArr);
   }
-}
-
-  let getUserTokensUrl1 = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0x58b6a8a3302369daec383334672404ee733ab239&address=${myAddress}&tag=latest&apikey=${apiKey}`;
-  let getUserTokensUrl2 = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0xb056c38f6b7dc4064367403e26424cd2c60655e1&address=${myAddress}&tag=latest&apikey=${apiKey}`;
-  await getUserToken(getUserTokensUrl1);
-  await getUserToken(getUserTokensUrl2);
-
   await returnUserTokenArr();
   await displayContent();
+  await checkifTokenExists();
 
   // displays logout button, removes display of login button
   loginButton.style.display = "none";
+  loginMessage.style.display = "none";
   logoutButton.style.display = "inline";
+  displayTokenButton.style.display = "inline";
   logoutButton.addEventListener("click", signOutMetaMask);
+  displayTokenButton.addEventListener("click", viewTokenList);
 }
 
+async function viewTokenList() {
+  console.log("hello");
+  displayTokenButton.style.display = "none";
+  ListContainerHeader.style.display = "inline";
+}
 // reloads page which resets arrays as well as text provided from js script
 async function signOutMetaMask() {
   location.reload();
@@ -199,3 +212,8 @@ window.addEventListener("DOMContentLoaded", () => {
   toggleButton();
   console.log("DOM fully loaded and parsed");
 });
+
+// let getUserTokensUrl1 = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0x58b6a8a3302369daec383334672404ee733ab239&address=${myAddress}&tag=latest&apikey=${apiKey}`;
+// let getUserTokensUrl2 = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0xb056c38f6b7dc4064367403e26424cd2c60655e1&address=${myAddress}&tag=latest&apikey=${apiKey}`;
+// await getUserToken(getUserTokensUrl1);
+// await getUserToken(getUserTokensUrl2);

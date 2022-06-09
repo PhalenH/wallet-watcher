@@ -28,7 +28,8 @@ body {
   padding: 10px;
   border-radius: 25px;
 }
-#logoutButton {
+#logoutButton,
+#displayTokenButton {
   display: none;
 }
 .top-content {
@@ -52,4 +53,16 @@ body {
 .list-title {
   margin-bottom: 10px;
   border-bottom: solid 2px white;
+}
+.user-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#userWallet,
+#userEtherBalance {
+  padding-left: 10px;
+}
+#list-container-header {
+  display: none;
 }

@@ -13,13 +13,19 @@
       <h1>Hello</h1>
       <button id="loginButton" class="goodButton">Login with MetaMask</button>
       <button id="logoutButton" class="goodButton">Logout from MetaMask</button>
+      <div class="user-info">
       <h2>Wallet Address:</h2>
       <p id="userWallet"></p>
+    </div>
+    <div class="user-info">
       <h2>Ethereum Balance:</h2>
       <p id="userEtherBalance"></p>
+    </div>
     </section>
       <section class="content-container">
-        <h2>Tokens</h2>
+        <h2 id="list-container-header">Tokens</h2>
+        <h3 id="login-message">Login to be able to view your tokens!</h3>
+        <button id="displayTokenButton" class="goodButton">View your tokens</button>
         <div class="list-container">
           <ul id="token-list-name" class="list-parent">
             <h3 class="list-title">Name</h3>
