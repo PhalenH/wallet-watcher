@@ -179,7 +179,7 @@ async function loginWithMetaMask() {
   await getUserToken(getUserTokensUrl1);
   await getUserToken(getUserTokensUrl2);
 
-  // await returnUserTokenArr();
+  await returnUserTokenArr();
   await displayContent();
 
   // displays logout button, removes display of login button
