@@ -46,13 +46,14 @@ function toggleButton() {
 
 // function to retrieve full list of tokens from coinGecko, loops through data, if ethereum is platform used, adds it to tokenArr array
 async function geckoTokens(getUrl) {
-  fetch(getUrl)
+  fetch("/api/coingecko")
     .then((response) => {
       if (response.status === 200) {
         return response.json();
       }
     })
     .then((data) => {
+      console.log("coingecko data", data);
       for (let i = 0; i < data.length; i++) {
         if (data[i].platforms.ethereum) {
           tokenArr.push({

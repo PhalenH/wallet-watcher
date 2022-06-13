@@ -10,3 +10,10 @@ Waller watcher will allow a user to login with MetaMask from the landing page. O
 
 ## Deployed Link
 - https://wallet-watcher-alpha.vercel.app/
+
+## Development
+
+```
+yarn install
+yarn start
+```
