@@ -12,13 +12,6 @@ const tokenHoldingContainer = document.getElementById("token-list-holding");
 // const tokenPriceContainer = document.getElementById("token-list-price");
 const userWallet = document.getElementById("userWallet");
 
-// url to get all Tokens from coinGecko
-let getUrl =
-  "https://api.coingecko.com/api/v3/coins/list?include_platform=true";
-// url to get top 250 coins in market
-let marketUrl =
-  "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=1000&page=1";
-
 // establish arrays to be given values later
 let tokenArr = [];
 let topTokenArr = [];
@@ -38,8 +31,14 @@ function toggleButton() {
   // click event for when user does have metamask downloaded
   loginButton.addEventListener("click", loginWithMetaMask);
 
+  // url to get top 250 coins in market
+  let marketUrl =
+    "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=1000&page=1";
   // returns tokenName list of top 250 tokens' name
   geckoTokenMarket(marketUrl);
+  // url to get all Tokens from coinGecko
+  let getUrl =
+    "https://api.coingecko.com/api/v3/coins/list?include_platform=true";
   // returns tokenArr list of all tokens with ethereum platform
   geckoTokens(getUrl);
 }
@@ -127,13 +126,13 @@ async function getUserToken(getUserTokenUrl) {
 
 async function checkifTokenExists() {
   // Promise.all()
-  for(let i = 0; i < tokenAddressArr.length; i++){
-    console.log(tokenAddressArr[i])
-  // if (getUserToken(tokenAddressArr[i]) >= 0) {
-  //   console.log("working");
-  //   finalDisplay.push({ name: topTokenArr[i].name , amount: getUserToken(getUserTokensUrl)})
-  // }
-}
+  for (let i = 0; i < tokenAddressArr.length; i++) {
+    console.log(tokenAddressArr[i]);
+    // if (getUserToken(tokenAddressArr[i]) >= 0) {
+    //   console.log("working");
+    //   finalDisplay.push({ name: topTokenArr[i].name , amount: getUserToken(getUserTokensUrl)})
+    // }
+  }
 }
 
 // creates and appends list items for tokens that user is holding  to designed unordered lists
