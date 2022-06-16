@@ -53,15 +53,16 @@ async function geckoTokens(getUrl) {
     })
     .then((data) => {
       console.log("coingecko data", data);
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].platforms.ethereum) {
+      console.log(data.body.length)
+      for (let i = 0; i < data.body.length; i++) {
+        if (data.body[i].platforms.ethereum) {
           tokenArr.push({
-            id: data[i].id,
-            address: data[i].platforms.ethereum,
+            id: data.body[i].id,
+            address: data.body[i].platforms.ethereum,
           });
         }
       }
-      // console.log(tokenArr);
+      console.log(tokenArr);
       return tokenArr;
     });
 }

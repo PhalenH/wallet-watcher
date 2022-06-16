@@ -8,8 +8,9 @@ export default async function handler(request, response) {
 
   if (res.ok) {
     const json = await res.json();
-    response.status(200).json({ body: JSON.stringify(json) });
+    response.status(200).json({ body:(json) });
   } else {
     response.status(res.status).end(res.body);
   }
 }
+
