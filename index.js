@@ -62,7 +62,7 @@ async function geckoTokens(getUrl) {
           });
         }
       }
-      console.log(tokenArr);
+      // console.log(tokenArr);
       return tokenArr;
     });
 }
@@ -91,6 +91,7 @@ async function compareTwoArr() {
       }
     }
   }
+  console.log(topTokenArr)
   return topTokenArr;
 }
 
