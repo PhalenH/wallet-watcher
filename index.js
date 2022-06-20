@@ -52,7 +52,7 @@ async function geckoTokens(getUrl) {
       }
     })
     .then((data) => {
-      console.log("coingecko data", data);
+      // console.log("coingecko data", data);
       console.log(data.body.length)
       for (let i = 0; i < data.body.length; i++) {
         if (data.body[i].platforms.ethereum) {
@@ -91,7 +91,7 @@ async function compareTwoArr() {
       }
     }
   }
-  console.log(topTokenArr)
+  // console.log(topTokenArr)
   return topTokenArr;
 }
 
@@ -104,7 +104,7 @@ async function getEtherBalance(balanceUrl) {
       }
     })
     .then((data) => {
-      console.log(data);
+      // console.log(data);
       userEtherBalance.innerText = data.result;
     });
 }
@@ -128,12 +128,13 @@ async function getUserToken(getUserTokenUrl) {
 
 async function checkifTokenExists() {
   // Promise.all()
-  for (let i = 0; i < tokenAddressArr.length; i++) {
+  for (let i = 0; i < 1; i++) {
     console.log(tokenAddressArr[i]);
-    // if (getUserToken(tokenAddressArr[i]) >= 0) {
-    //   console.log("working");
-    //   finalDisplay.push({ name: topTokenArr[i].name , amount: getUserToken(getUserTokensUrl)})
-    // }
+    if (getUserToken(tokenAddressArr[i])) {
+      console.log("working");
+      console.log(getUserToken(tokenAddressArr[i]))
+      // finalDisplay.push({ name: topTokenArr[i].name , amount: getUserToken(getUserTokensUrl)})
+    }
   }
 }
 
@@ -182,6 +183,7 @@ async function loginWithMetaMask() {
   async function returnUserTokenArr() {
     for (let i = 0; i < topTokenArr.length; i++) {
       let getUserTokensUrl = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=${topTokenArr[i].address}&address=${myAddress}&tag=latest&apikey=${apiKey}`;
+      console.log(topTokenArr[i].id)
       tokenAddressArr.push(getUserTokensUrl);
     }
     // console.log(tokenAddressArr);
