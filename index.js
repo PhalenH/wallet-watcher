@@ -173,7 +173,8 @@ async function loginWithMetaMask() {
   // displays user account address
   userWallet.innerText = myAddress;
 
-  let apiKey = "Z1RS12PR6955ZK5SBXV6HGUEJG5GR2721W";
+  let apiKey = process.env.API_KEY
+  // "Z1RS12PR6955ZK5SBXV6HGUEJG5GR2721W";
   // url to request account balance
   let requestEtherScan = `https://api.etherscan.io/api?module=account&action=balance&address=${myAddress}&tag=latest&apikey=${apiKey}`;
   // fetches api to retrieve ethereum balance
