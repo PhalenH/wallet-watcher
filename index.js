@@ -1,4 +1,5 @@
 console.log("hello ");
+// console.log(API_KEY)
 
 // HTML tags to reference in functions
 const loginButton = document.getElementById("loginButton");
@@ -167,15 +168,22 @@ async function loginWithMetaMask() {
   if (!accounts) {
     return;
   }
+    // displays logout button, removes display of login button
+    loginButton.style.display = "none";
+    loginMessage.style.display = "none";
+    logoutButton.style.display = "inline";
+    displayTokenButton.style.display = "inline";
+    logoutButton.addEventListener("click", signOutMetaMask);
+    displayTokenButton.addEventListener("click", viewTokenList);
   // Returns first account
   const account = accounts[0];
   let myAddress = account;
   // displays user account address
   userWallet.innerText = myAddress;
 
-  let apiKey = process.env.API_KEY
-  // "Z1RS12PR6955ZK5SBXV6HGUEJG5GR2721W";
-  // url to request account balance
+  // process.env.API_KEY
+  const API_Key = process.env.API_KEY
+  let apiKey = API_Key;
   let requestEtherScan = `https://api.etherscan.io/api?module=account&action=balance&address=${myAddress}&tag=latest&apikey=${apiKey}`;
   // fetches api to retrieve ethereum balance
   getEtherBalance(requestEtherScan);
@@ -191,14 +199,6 @@ async function loginWithMetaMask() {
   }
   await returnUserTokenArr();
   await checkifTokenExists();
-
-  // displays logout button, removes display of login button
-  loginButton.style.display = "none";
-  loginMessage.style.display = "none";
-  logoutButton.style.display = "inline";
-  displayTokenButton.style.display = "inline";
-  logoutButton.addEventListener("click", signOutMetaMask);
-  displayTokenButton.addEventListener("click", viewTokenList);
 }
 
 async function viewTokenList() {
